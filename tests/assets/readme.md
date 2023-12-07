@@ -1,0 +1,1 @@
+This are the files from different games. They are distributed online and for free. I have not made any changes to them, they only used for testing and are not distributed in any way.
