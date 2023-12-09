@@ -8,7 +8,7 @@
             "name": "Run Test Debugger",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/target/debug/deps/e2e_tests-fd768969ef344b0e.exe",
+            "program": "${workspaceFolder}/target/debug/deps/e2e_tests-bee7d92460b1b29c.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
