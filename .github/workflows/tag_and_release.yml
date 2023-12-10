@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  build:
-    name: {{ github.actor }} authorized build and release
+  release:
+    name: ${{ github.actor }} authorized build and tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
