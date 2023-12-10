@@ -1,6 +1,6 @@
-use std::{env, path::PathBuf, io::BufReader};
+use std::{env, io::BufReader, path::PathBuf};
 
-use unrparc::{scan, RpaFile, extract_filename, extract_file};
+use unrparc::{extract_file, extract_filename, extract_glob, scan, RpaFile};
 
 fn read_assets_rpa(name: &str) -> (Vec<RpaFile>, BufReader<std::fs::File>) {
     let path: PathBuf = PathBuf::from(env::current_dir().unwrap())
@@ -56,7 +56,7 @@ fn should_extract_single_file_by_name() {
 
     let file = extract_filename(files[0].name.as_str(), &mut reader).unwrap();
 
-    assert_eq!(file, b"1234567890");
+    assert_eq!(file.1, b"1234567890");
 }
 
 #[test]
@@ -65,8 +65,16 @@ fn should_extract_single_file_by_file() {
 
     let file = extract_file(files[0].clone(), &mut reader).unwrap();
 
-    assert_eq!(file, b"1234567890");
+    assert_eq!(file.1, b"1234567890");
 }
 
 #[test]
-fn should_extract_all_files_from_archive() {}
+fn should_extract_all_files_by_specific_glob() {
+    let (_, mut reader) = read_assets_rpa("scripts.rpa");
+
+    let files = extract_glob("*.rpy", &mut reader).unwrap();
+
+    for file in files {
+        assert!(file.0.name.ends_with(".rpy"));
+    }
+}

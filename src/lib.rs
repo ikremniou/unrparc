@@ -9,7 +9,7 @@ mod internal;
 mod reader;
 
 #[derive(Clone)]
-pub struct RpaFile  {
+pub struct RpaFile {
     pub name: String,
     pub offset: i64,
     pub size: i64,
@@ -28,10 +28,18 @@ pub fn scan(reader: &mut BufReader<std::fs::File>) -> Result<Vec<RpaFile>, Unrpa
     return Err(UnrparcError);
 }
 
+pub fn extract(
+    reader: &mut BufReader<std::fs::File>,
+) -> Result<Vec<(RpaFile, Vec<u8>)>, UnrparcError> {
+    let mut rpa_reader: Box<dyn RpaReader> = Box::new(reader::RpaBufReader::new(reader));
+    rpa_reader.as_mut().seek(std::io::SeekFrom::Start(0))?;
+    return internal::extract_predicate(|_| true, rpa_reader.as_mut());
+}
+
 pub fn extract_filename(
     file_name: &str,
     reader: &mut BufReader<std::fs::File>,
-) -> Result<Vec<u8>, UnrparcError> {
+) -> Result<(RpaFile, Vec<u8>), UnrparcError> {
     let mut rpa_reader: Box<dyn RpaReader> = Box::new(reader::RpaBufReader::new(reader));
 
     rpa_reader.as_mut().seek(std::io::SeekFrom::Start(0))?;
@@ -43,7 +51,7 @@ pub fn extract_filename(
 pub fn extract_glob(
     glob: &str,
     reader: &mut BufReader<std::fs::File>,
-) -> Result<Vec<Vec<u8>>, UnrparcError> {
+) -> Result<Vec<(RpaFile, Vec<u8>)>, UnrparcError> {
     let mut rpa_reader: Box<dyn RpaReader> = Box::new(reader::RpaBufReader::new(reader));
     rpa_reader.as_mut().seek(std::io::SeekFrom::Start(0))?;
 
@@ -57,7 +65,7 @@ pub fn extract_glob(
 pub fn extract_file(
     file: RpaFile,
     reader: &mut BufReader<std::fs::File>,
-) -> Result<Vec<u8>, UnrparcError> {
+) -> Result<(RpaFile, Vec<u8>), UnrparcError> {
     let mut rpa_reader: Box<dyn RpaReader> = Box::new(reader::RpaBufReader::new(reader));
     return internal::extract_file(file, rpa_reader.as_mut());
 }

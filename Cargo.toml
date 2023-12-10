@@ -1,7 +1,12 @@
 [package]
 name = "unrparc"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+authors = ["Ilya Kremniou <i@kremniou.ru"]
+description = "A simple CLI tool to uncompress the '.rpa' archive used in Renpy, written in Rust"
+license = "MIT"
+repository = "https://github.com/kremniou/unrparc"
+categories = ["rpa", "cli", "renpy", "uncompress", "archive"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,3 +23,4 @@ serde = "1.0"
 serde-pickle = "1.1"
 flate2 = "1.0.28"
 wax = "0.6.0"
+clap = { version = "4.4", features = ["derive"] }

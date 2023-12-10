@@ -66,16 +66,19 @@ fn fetch_files_from_index(
 pub(crate) fn extract_file(
     file: RpaFile,
     reader: &mut dyn RpaReader,
-) -> Result<Vec<u8>, UnrparcError> {
+) -> Result<(RpaFile, Vec<u8>), UnrparcError> {
     reader.seek(std::io::SeekFrom::Start(file.offset as u64))?;
 
     let mut buf = vec![0u8; file.size as usize];
     reader.read_exact(&mut buf)?;
 
-    return Ok(buf);
+    return Ok((file, buf));
 }
 
-pub(crate) fn extract_predicate<F>(predicate: F, reader: &mut dyn RpaReader) -> Result<Vec<Vec<u8>>, UnrparcError>
+pub(crate) fn extract_predicate<F>(
+    predicate: F,
+    reader: &mut dyn RpaReader,
+) -> Result<Vec<(RpaFile, Vec<u8>)>, UnrparcError>
 where
     F: Fn(&RpaFile) -> bool,
 {
@@ -84,12 +87,12 @@ where
         return Err(UnrparcError);
     }
 
-    let mut result_files: Vec<Vec<u8>> = Vec::new();
+    let mut result_files: Vec<(RpaFile, Vec<u8>)> = Vec::new();
     for file in files {
         if predicate(&file) {
             result_files.push(extract_file(file, reader)?);
         }
     }
 
-    return Err(UnrparcError);
+    return Ok(result_files);
 }
