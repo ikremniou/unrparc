@@ -58,8 +58,8 @@ fn main() {
             }
 
             for file in files {
-                if glob_pattern.is_some() {
-                    if glob_pattern.as_ref().unwrap().is_match(file.name.as_str()) {
+                if let Some(glob_pattern) = &glob_pattern {
+                    if glob_pattern.is_match(file.name.as_str()) {
                         println!("{}: {} bytes", file.name, file.size);
                     }
                 } else {
@@ -78,12 +78,10 @@ fn main() {
 
             let mut reader = get_file_reader(source);
 
-            let files_res: Result<Vec<(unrparc::RpaFile, Vec<u8>)>, _>;
-            if glob.is_some() {
-                files_res = unrparc::extract_glob(glob.unwrap().as_str(), &mut reader);
-            } else {
-                files_res = unrparc::extract(&mut reader)
-            }
+            let files_res = match glob {
+                Some(glob) => unrparc::extract_glob(glob.as_str(), &mut reader),
+                None => unrparc::extract(&mut reader),
+            };
 
             let files = match files_res {
                 Ok(files) => files,
@@ -96,11 +94,8 @@ fn main() {
             let destination = std::path::Path::new(&destination);
             for (file, data) in files {
                 let file_path = destination.join(file.name);
-                match std::fs::write(file_path, data) {
-                    Err(err) => {
-                        println!("{}", err);
-                    }
-                    Ok(_) => (),
+                if let Err(err) = std::fs::write(file_path, data) {
+                    println!("{}", err);
                 };
             }
         }
@@ -115,5 +110,5 @@ fn get_file_reader(path: String) -> std::io::BufReader<std::fs::File> {
             exit(1)
         }
     };
-    return std::io::BufReader::new(file);
+    std::io::BufReader::new(file)
 }

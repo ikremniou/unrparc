@@ -16,12 +16,12 @@ impl<'a> RpaBufReader<'a> {
 
 impl<'a> RpaReader for RpaBufReader<'a> {
     fn seek(&mut self, pos: std::io::SeekFrom) -> std::io::Result<u64> {
-        return self.buf_reader.seek(pos);
+        self.buf_reader.seek(pos)
     }
 }
 
 impl<'a> Read for RpaBufReader<'a> {
     fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        return self.buf_reader.read(buf);
+        self.buf_reader.read(buf)
     }
 }

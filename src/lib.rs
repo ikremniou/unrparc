@@ -25,7 +25,7 @@ pub fn scan(reader: &mut BufReader<std::fs::File>) -> Result<Vec<RpaFile>, Unrpa
         return internal::scan_rpa(rpa_reader.as_mut());
     }
 
-    return Err(UnrparcError);
+    Err(UnrparcError)
 }
 
 pub fn extract(
@@ -45,7 +45,7 @@ pub fn extract_filename(
     rpa_reader.as_mut().seek(std::io::SeekFrom::Start(0))?;
 
     let files = internal::extract_predicate(|file| file.name == file_name, rpa_reader.as_mut())?;
-    return Ok(files[0].clone());
+    Ok(files[0].clone())
 }
 
 pub fn extract_glob(

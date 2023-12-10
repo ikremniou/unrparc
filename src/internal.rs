@@ -22,7 +22,7 @@ pub(crate) fn scan_rpa(reader: &mut dyn RpaReader) -> Result<Vec<RpaFile>, Unrpa
         _ => return Err(UnrparcError),
     };
 
-    return fetch_files_from_index(index, key);
+    fetch_files_from_index(index, key)
 }
 
 fn fetch_files_from_index(
@@ -60,7 +60,7 @@ fn fetch_files_from_index(
             size: size ^ key as i64,
         });
     }
-    return Ok(files);
+    Ok(files)
 }
 
 pub(crate) fn extract_file(
@@ -72,7 +72,7 @@ pub(crate) fn extract_file(
     let mut buf = vec![0u8; file.size as usize];
     reader.read_exact(&mut buf)?;
 
-    return Ok((file, buf));
+    Ok((file, buf))
 }
 
 pub(crate) fn extract_predicate<F>(
@@ -94,5 +94,5 @@ where
         }
     }
 
-    return Ok(result_files);
+    Ok(result_files)
 }

@@ -3,14 +3,14 @@ use std::{env, io::BufReader, path::PathBuf};
 use unrparc::{extract_file, extract_filename, extract_glob, scan, RpaFile};
 
 fn read_assets_rpa(name: &str) -> (Vec<RpaFile>, BufReader<std::fs::File>) {
-    let path: PathBuf = PathBuf::from(env::current_dir().unwrap())
+    let path: PathBuf = env::current_dir().unwrap()
         .join("tests")
         .join("assets")
         .join(name);
 
     let file = std::fs::File::open(path).unwrap();
     let mut reader = std::io::BufReader::new(file);
-    return (scan(&mut reader).unwrap(), reader);
+    (scan(&mut reader).unwrap(), reader)
 }
 
 #[test]
@@ -31,7 +31,7 @@ fn should_scan_big_rpa_and_verify_returned_offsets() {
 
     let mut prev_offset: i64 = -1;
     for file in files {
-        assert_eq!(file.offset > prev_offset, true);
+        assert!(file.offset > prev_offset);
         prev_offset = file.offset;
     }
 }
