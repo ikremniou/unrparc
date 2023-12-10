@@ -28,3 +28,9 @@ impl From<serde_pickle::Error> for UnrparcError {
         UnrparcError
     }
 }
+
+impl From<wax::BuildError> for UnrparcError {
+    fn from(_error: wax::BuildError) -> Self {
+        UnrparcError
+    }
+}
