@@ -1,4 +1,4 @@
-use std::io::{Seek, Read};
+use std::io::{Read, Seek};
 
 pub(crate) struct RpaBufReader<'a> {
     buf_reader: &'a mut std::io::BufReader<std::fs::File>,
@@ -9,10 +9,8 @@ pub(crate) trait RpaReader: Read {
 }
 
 impl<'a> RpaBufReader<'a> {
-     pub fn new(reader: &mut std::io::BufReader<std::fs::File>) -> RpaBufReader {
-        RpaBufReader {
-            buf_reader: reader
-        }
+    pub fn new(reader: &mut std::io::BufReader<std::fs::File>) -> RpaBufReader {
+        RpaBufReader { buf_reader: reader }
     }
 }
 
@@ -27,4 +25,3 @@ impl<'a> Read for RpaBufReader<'a> {
         return self.buf_reader.read(buf);
     }
 }
-
