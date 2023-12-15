@@ -20,6 +20,7 @@ jobs:
       - name: Bump and Tag
         uses: anothrNick/github-tag-action@1.64.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
           WITH_V: true
+          DEFAULT_BUMP: patch
         id: bump_version
