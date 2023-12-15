@@ -2,6 +2,10 @@
 
 The CLI tool library to unpack ".rpa" archives written in Rust.
 
+## How to install
+
+TBA
+
 ## How to use
 
 The overall usage patten is as follows:
