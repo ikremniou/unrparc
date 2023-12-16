@@ -35,6 +35,8 @@ jobs:
           DEFAULT_BUMP: patch
 
       - name: Commit
+        env:
+          GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
