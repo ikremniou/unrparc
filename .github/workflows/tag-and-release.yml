@@ -35,11 +35,10 @@ jobs:
           DEFAULT_BUMP: patch
 
       - name: Commit
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
+          git config --global user.password ${{ secrets.MY_TOKEN }}
           git add .
           git commit -am "chore: bump version to ${{ steps.bump_version.outputs.new_tag }}"
           git push origin master --follow-tags
@@ -53,7 +52,9 @@ jobs:
       matrix:
         target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl]
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Compile and release
         uses: rust-build/rust-build.action@v1.4.4
         env:
