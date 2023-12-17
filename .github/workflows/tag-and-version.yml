@@ -52,4 +52,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git commit -am "chore: bump version to ${{ steps.bump_version.outputs.new_tag }}"
           git tag v"${{ steps.bump_version.outputs.new_tag }}"
+          git add .
           git push origin ${{ github.ref }} --follow-tags
