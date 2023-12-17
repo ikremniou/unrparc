@@ -1,4 +1,4 @@
-name: release
+name: release-package
 
 on:
   workflow_run:
