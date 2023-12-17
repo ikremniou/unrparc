@@ -29,6 +29,7 @@ jobs:
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ env.PACKAGE_VERSION }}
+          version-fragment: 'bug'
 
       - name: Set package version
         run: |
