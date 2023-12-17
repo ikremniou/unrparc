@@ -3,7 +3,8 @@ use std::{env, io::BufReader, path::PathBuf};
 use unrparc::{extract_file, extract_filename, extract_glob, scan, RpaFile};
 
 fn read_assets_rpa(name: &str) -> (Vec<RpaFile>, BufReader<std::fs::File>) {
-    let path: PathBuf = env::current_dir().unwrap()
+    let path: PathBuf = env::current_dir()
+        .unwrap()
         .join("tests")
         .join("assets")
         .join(name);
