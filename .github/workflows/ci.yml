@@ -7,6 +7,7 @@ on:
 
 jobs:
   clippy:
+    if: github.actor != 'github-actions[bot]'
     name: Clippy
     runs-on: ubuntu-latest
     steps:
@@ -17,6 +18,7 @@ jobs:
         run: cargo clippy -- -Dclippy::all -D warnings
 
   rust-fmt:
+    if: github.actor != 'github-actions[bot]'
     name: Format
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +29,7 @@ jobs:
         run: cargo fmt --check
 
   test:
+    if: github.actor != 'github-actions[bot]'
     name: Test
     runs-on: ubuntu-latest
     steps:
