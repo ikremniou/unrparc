@@ -43,11 +43,15 @@ jobs:
           fi
 
       - name: Commit
-        env:
-          GH_TOKEN: ${{ secrets.MY_TOKEN }}
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git tag v"${{ steps.bump_version.outputs.next-version }}"
           git commit -am "chore: bump version to ${{ steps.bump_version.outputs.next-version }}"
-          git push origin ${{ github.ref }} --follow-tags
+
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MY_TOKEN }}
+          branch: ${{ github.ref }}
+
