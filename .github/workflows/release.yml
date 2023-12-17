@@ -1,6 +1,8 @@
+name: release
+
 on:
-  release:
-    types: [created]
+  workflow_run:
+    workflows: ["tag-and-version"]
 
 jobs:
   release:

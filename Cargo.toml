@@ -1,14 +1,12 @@
 [package]
 name = "unrparc"
-version = "0.1.91"
+version = "0.2.0"
 edition = "2021"
 authors = ["Ilya Kremniou <i@kremniou.ru"]
 description = "A simple CLI tool to uncompress the '.rpa' archive used in Renpy, written in Rust"
 license = "MIT"
 repository = "https://github.com/kremniou/unrparc"
 categories = ["rpa", "cli", "renpy", "uncompress", "archive"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
 name = "unrparc"
