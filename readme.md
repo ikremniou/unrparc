@@ -4,7 +4,7 @@ The CLI tool library to unpack ".rpa" archives written in Rust.
 
 ## How to install
 
-TBA
+At this point this tool is no uploaded to any package manager. Download the last release from the [Releases](https://github.com/ikremniou/unrparc/releases).
 
 ## How to use
 
