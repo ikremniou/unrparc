@@ -44,6 +44,8 @@ jobs:
               echo "Successfully updated the version number in Cargo.toml to ${{ steps.bump_version.outputs.new_tag }}"
           fi
 
+          cat Cargo.toml
+
       - name: Commit
         env:
           GH_TOKEN: ${{ secrets.MY_TOKEN }}
