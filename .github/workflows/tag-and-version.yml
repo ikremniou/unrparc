@@ -25,26 +25,21 @@ jobs:
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
 
       - name: Generate new version
-        uses: anothrNick/github-tag-action@1.64.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
-          DEFAULT_BUMP: patch
-          INITIAL_VERSION: ${{ env.PACKAGE_VERSION }}
-          DRY_RUN: true
-        id: bump_version
+        id : bump_version
+        uses: christian-draeger/increment-semantic-version@1.1.0
+        with:
+          current-version: ${{ env.PACKAGE_VERSION }}
 
       - name: Set package version
         run: |
-          sed -i".bak" '/^version =/ s/="[^"]*"$/="'"${{ steps.bump_version.outputs.new_tag }}"'"/' Cargo.toml
+          sed -i '3s/.*/version = "${{ steps.bump_version.outputs.next-version }}"/' Cargo.toml
 
           if [[ $? != 0 ]]; then
               echo "ERROR: Failed to update the version number in Cargo.toml" >&2
               exit 1
           else
-              echo "Successfully updated the version number in Cargo.toml to ${{ steps.bump_version.outputs.new_tag }}"
+              echo "Successfully updated the version number in Cargo.toml to ${{ steps.bump_version.outputs.next-version }}"
           fi
-
-          cat Cargo.toml
 
       - name: Commit
         env:
@@ -52,7 +47,6 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git commit -am "chore: bump version to ${{ steps.bump_version.outputs.new_tag }}"
-          git tag v"${{ steps.bump_version.outputs.new_tag }}"
-          git add .
+          git tag v"${{ steps.bump_version.outputs.next-version }}"
+          git commit -am "chore: bump version to ${{ steps.bump_version.outputs.next-version }}"
           git push origin ${{ github.ref }} --follow-tags
